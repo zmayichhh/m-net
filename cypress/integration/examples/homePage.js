@@ -1,4 +1,4 @@
-describe("Home Page", () => {
+describe("USE CASE 1: Home Page", () => {
   beforeEach(() => {
     cy.visit(Cypress.env("url"));
     const acceptButton = cy.get("button[id='popin_tc_privacy_button']", {
@@ -7,7 +7,7 @@ describe("Home Page", () => {
     acceptButton.click();
   });
 
-  it.only("TC no.01: Verfugbarkeit button is disabled with one empty input field", () => {
+  it("TC no.01: Verfugbarkeit button is disabled with one empty input field", () => {
     cy.get("#zipCodeWithCity").type("München 81241");
     cy.get(".gas-dropdown__items").click();
     cy.get("#streetWithDistrict").type("Bodenstedtstraße");
