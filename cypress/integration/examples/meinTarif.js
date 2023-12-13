@@ -1,3 +1,5 @@
+//const { expect } = require("chai");
+
 describe("USE CASE 2: Mein Tarif", () => {
   beforeEach(() => {
     cy.visit(Cypress.env("url"));
@@ -19,7 +21,15 @@ describe("USE CASE 2: Mein Tarif", () => {
       .should("have.text", "Unsere Empfehlung");
   });
 
-  it("TC no.03: User is presented with a recommended Internet option", () => {
+  it.only("TC no.03: User can change between different Internet options", () => {
+    cy.startNavigation();
+    cy.get("div .tariff-option-column").each(($option) => {
+      cy.wrap($option).find("button").click({ force: true });
+      cy.wrap($option).find("button").should("have.text", " ausgewählt ");
+    });
+  });
+
+  it.only("TC no.04: User opens every Internet tarif informations pop up", () => {
     cy.startNavigation();
   });
 });
