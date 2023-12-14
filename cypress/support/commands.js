@@ -20,6 +20,7 @@ Cypress.Commands.add("startNavigation", () => {
   cy.get("#houseNumberWithExtension").type("1{enter}");
   cy.contains("1").click({ force: true });
   cy.get("#submitButtonVc").click().click();
+  cy.get(".cdk-overlay-pane button").click({ force: true });
 });
 
 Cypress.Commands.add("compareTwoElements", (element1, element2) => {
