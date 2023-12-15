@@ -12,10 +12,10 @@
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
 
-Cypress.Commands.add("startNavigation", () => {
-  cy.get("#zipCodeWithCity").type("München 81241");
+Cypress.Commands.add("startNavigation", (zipcode, address) => {
+  cy.get("#zipCodeWithCity").type(zipcode);
   cy.get(".gas-dropdown__items").click();
-  cy.get("#streetWithDistrict").type("Bodenstedtstraße");
+  cy.get("#streetWithDistrict").type(address);
   cy.get(".gas-dropdown").eq(1).click();
   cy.get("#houseNumberWithExtension").type("1{enter}");
   cy.contains("1").click({ force: true });

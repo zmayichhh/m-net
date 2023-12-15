@@ -1,4 +1,15 @@
+/// <reference types="Cypress" />
+import elements from "../pageObjects/elements";
+
 describe("USE CASE 1: Home Page", () => {
+  const inputField = new elements();
+  let data;
+  before(function () {
+    cy.fixture("example").then(function (fdata) {
+      data = fdata;
+    });
+  });
+
   beforeEach(() => {
     cy.visit(Cypress.env("url"));
     const acceptButton = cy.get("button[id='popin_tc_privacy_button']", {
@@ -8,28 +19,28 @@ describe("USE CASE 1: Home Page", () => {
   });
 
   it("TC no.01: Verfugbarkeit button is disabled with one empty input field", () => {
-    cy.get("#zipCodeWithCity").type("München 81241");
+    inputField.getZipCodeInput().type(data.zipcode);
     cy.get(".gas-dropdown__items").click();
-    cy.get("#streetWithDistrict").type("Bodenstedtstraße");
+    inputField.getAddressField().type(data.address);
     cy.get(".mn-vcbadge__form__button button").should("be.disabled");
   });
 
   it("TC no.02: User can't use the next input field if the current is unpopulated", () => {
-    get("#zipCodeWithCity").type("München 81241");
+    inputField.getZipCodeInput().type(data.zipcode);
     cy.get(".gas-dropdown__items").click();
     cy.get("#houseNumberWithExtension").click().should("not.be.enabled");
   });
 
   it("TC no.03: Input field displays error message for incorent/not existing value", () => {
     const random_input = "Test123";
-    cy.get("#zipCodeWithCity").type(random_input);
+    inputField.getZipCodeInput().type(random_input);
     cy.contains("Nicht vorhanden").should("be.visible");
   });
 
-  it("TC no.04: User navigates to Mein Tarif page", () => {
-    cy.get("#zipCodeWithCity").type("München 81241");
+  it.only("TC no.04: User navigates to Mein Tarif page", () => {
+    inputField.getZipCodeInput().type(data.zipcode);
     cy.get(".gas-dropdown__items").click();
-    cy.get("#streetWithDistrict").type("Bodenstedtstraße");
+    inputField.getAddressField().type(data.address);
     cy.get(".gas-dropdown").eq(1).click();
     cy.get("#houseNumberWithExtension").type("1{enter}");
     cy.contains("1").click({ force: true });

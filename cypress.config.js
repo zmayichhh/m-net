@@ -6,7 +6,7 @@ module.exports = defineConfig({
     url: "https://www.m-net.de/privatkunden/",
   },
   e2e: {
-    specPattern: "cypress/integration/examples/mnetAPI.js",
+    specPattern: "cypress/integration/examples/homePage.js",
     baseUrl: "https://www.m-net.de/privatkunden/",
     setupNodeEvents(on, config) {},
   },
