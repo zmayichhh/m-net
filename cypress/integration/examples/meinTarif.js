@@ -70,7 +70,7 @@ describe("USE CASE 2: Mein Tarif", () => {
     });
   });
 
-  it("TC no.08: The user can't select two International-Flat options", () => {
+  it("TC no.08: User can't select two International-Flat options", () => {
     cy.startNavigation();
     cy.get("#mnet-phone-options swiper-slide").eq(1).click();
     cy.contains("Mobil-Flat").click();
@@ -82,5 +82,36 @@ describe("USE CASE 2: Mein Tarif", () => {
       .then(($value) => {
         expect($value).to.equal("option");
       });
+  });
+
+  it("TC no.09: User changes the Vertrags option", () => {
+    cy.startNavigation();
+    cy.contains("Ohne Vertragslaufzeit").click({ force: true });
+    cy.contains("30 € Online-Vorteil").should("not.exist");
+    cy.get(".tariff-option-column").each(($el) => {
+      cy.wrap($el)
+        .find(".mn-input--radio")
+        .next()
+        .invoke("attr", "class")
+        .then(($classValue) => {
+          expect($classValue).to.contain("selectedMvl");
+        });
+    });
+    cy.get(".mn-tarif--deliveryPrice .ng-star-inserted").should("not.exist");
+  });
+
+  it("TC no.10: User continues from Mein Tarif to Tarif-Option page", () => {
+    cy.startNavigation();
+    cy.goTo_TarifOptionen();
+  });
+
+  it("TC no.11: User continues from Mein Tarif to Tarif-Option page with different options", () => {
+    cy.startNavigation();
+    cy.get("div .tariff-option-column").find("button").eq(3);
+    cy.contains("FRITZ!Box 7590 AX").click();
+    cy.get("#mnet-phone-options swiper-slide").eq(1).click();
+    cy.contains("Mobil-Flat").click();
+    cy.contains("International-Flat M").click();
+    cy.goTo_TarifOptionen();
   });
 });

@@ -39,6 +39,11 @@ Cypress.Commands.add("compareTwoElements", (element1, element2) => {
     });
 });
 
+Cypress.Commands.add("goTo_TarifOptionen", () => {
+  cy.contains("Weiter zu Optionen").click();
+  cy.url().should("eq", "https://shop.m-net.de/checkout/Optionen");
+});
+
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
 //
