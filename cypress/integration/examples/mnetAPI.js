@@ -1,6 +1,13 @@
 /// <reference types="cypress" />
 
 describe("m-net API calls", () => {
+  let data;
+  before(function () {
+    cy.fixture("example").then(function (fdata) {
+      data = fdata;
+    });
+  });
+
   beforeEach(() => {
     cy.visit(Cypress.env("url"));
     const acceptButton = cy.get("button[id='popin_tc_privacy_button']", {
@@ -13,7 +20,7 @@ describe("m-net API calls", () => {
     cy.intercept("GET", "https://shop.m-net.de/api/location?geoId=1085591").as(
       "mnet-response"
     );
-    cy.startNavigation();
+    cy.startNavigation(data.zipcode, data.address);
     cy.wait("@mnet-response").then((API) => {
       expect(API.response.body.postalCode).to.eq("81241");
       expect(API.response.body.houseNumber).to.eq("1");
@@ -24,12 +31,12 @@ describe("m-net API calls", () => {
     });
   });
 
-  it.only("Mock existing entries from the user from the home page", () => {
+  it("Mock existing entries from the user from the home page", () => {
     cy.intercept("GET", "https://shop.m-net.de/api/location?geoId=*", {
       postalCode: "97070",
       houseNumber: "14A",
     }).as("mnet-response");
-    cy.startNavigation();
+    cy.startNavigation(data.zipcode, data.address);
     cy.wait("@mnet-response").then((API) => {
       expect(API.response.body.postalCode).to.eq("97070");
       expect(API.response.body.houseNumber).to.eq("14A");

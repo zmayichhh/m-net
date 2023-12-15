@@ -19,26 +19,26 @@ describe("USE CASE 1: Home Page", () => {
   });
 
   it("TC no.01: Verfugbarkeit button is disabled with one empty input field", () => {
-    inputField.getZipCodeInput().type(data.zipcode);
+    inputField.getZipCodeField().type(data.zipcode);
     cy.get(".gas-dropdown__items").click();
     inputField.getAddressField().type(data.address);
     cy.get(".mn-vcbadge__form__button button").should("be.disabled");
   });
 
   it("TC no.02: User can't use the next input field if the current is unpopulated", () => {
-    inputField.getZipCodeInput().type(data.zipcode);
+    inputField.getZipCodeField().type(data.zipcode);
     cy.get(".gas-dropdown__items").click();
     cy.get("#houseNumberWithExtension").click().should("not.be.enabled");
   });
 
   it("TC no.03: Input field displays error message for incorent/not existing value", () => {
     const random_input = "Test123";
-    inputField.getZipCodeInput().type(random_input);
+    inputField.getZipCodeField().type(random_input);
     cy.contains("Nicht vorhanden").should("be.visible");
   });
 
-  it.only("TC no.04: User navigates to Mein Tarif page", () => {
-    inputField.getZipCodeInput().type(data.zipcode);
+  it("TC no.04: User navigates to Mein Tarif page", () => {
+    inputField.getZipCodeField().type(data.zipcode);
     cy.get(".gas-dropdown__items").click();
     inputField.getAddressField().type(data.address);
     cy.get(".gas-dropdown").eq(1).click();
